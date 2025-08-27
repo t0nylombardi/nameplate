@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require_relative "avatar/generator"
+require_relative "avatar/cache"
+require_relative "avatar/identity"
 
 module NamePlate
   # Avatar generation from usernames.
@@ -14,9 +17,19 @@ module NamePlate
   #   NamePlate::Avatar.generate("John Doe", 128)
   #
   class Avatar
-    VERSION = 2 # bump on any change to avatar generation
+    VERSION = 1 # bump on any change to avatar generation
     FULLSIZE = 600
     FILL_COLOR = "rgba(255, 255, 255, 0.65)" # white at 65% opacity
     FONT_FILE = File.join(File.expand_path("../../", __dir__), "Loto-Light")
+
+    # Public API entry point
+    #
+    # @param username [String]
+    # @param size [Integer]
+    # @param opts [Hash] options, e.g. { cache: true }
+    # @return [String] path to avatar file
+    def self.generate(username, size, opts = {})
+      Generator.call(username, size, **opts)
+    end
   end
 end

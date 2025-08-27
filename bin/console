@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "nameplate"
+
+# Prefer Pry if available
+begin
+  require "pry"
+  Pry.config.prompt = Pry::Prompt[:simple] # cleaner prompt
+  console = Pry
+rescue LoadError
+  require "irb"
+  console = IRB
+end
+
+# Rails-style reload!
+def reload!
+  Object.send(:remove_const, :NamePlate) if defined?(NamePlate)
+  load File.expand_path("../lib/nameplate.rb", __dir__)
+  puts "✅ NamePlate reloaded!"
+end
+
+puts "Console loaded. Type `reload!` to reload gem code."
+console.start

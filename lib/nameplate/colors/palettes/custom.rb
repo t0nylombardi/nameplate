@@ -4,6 +4,8 @@ module NamePlate
   module Colors
     module Palettes
       class Custom < Palette
+        def self.key = :custom
+
         def initialize
           super(NamePlate.custom_palette || [])
         end

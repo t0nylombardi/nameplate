@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module NamePlate
-  module Avatar
+  class Avatar
     # Builds file paths for cached avatars.
     class Cache
       # @return [String] base cache path

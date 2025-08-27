@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module NamePlate
-  module Avatar
+  class Avatar
     # Represents a derived avatar identity: letters and color.
     class Identity
       attr_reader :color, :letters

@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+require "digest"
+
 module NamePlate
   module Colors
-    # Base class for all color palettes.
+    # Base class for all color Palette.
     class Palette
-      # @return [Array<Array<Integer>>] the palette of RGB triplets
       attr_reader :colors
 
       def initialize(colors)

@@ -31,18 +31,22 @@ module NamePlate
     end
 
     def colors_palette=(v)
-      @colors_palette = v if Colors::PALETTES.include?(v)
+      @colors_palette = v if Colors::Palette.include?(v)
     end
 
-		def custom_palette
+    def custom_palette
       @custom_palette ||= nil
-		end
+    end
 
-		def custom_palette=(v)
+    def custom_palette=(v)
       @custom_palette = v
-      raise "Missing Custom Palette, please set config.custom_palette if using :custom" if @custom_palette.nil? && @colors_palette == :custom
-			raise "Invalid Custom Palette, please update config.custom_palette" unless Colors::valid_custom_palette?(@custom_palette)
-		end
+      if @custom_palette.nil? && @colors_palette == :custom
+        raise "Missing Custom Palette, please set config.custom_palette if using :custom"
+      end
+      if Colors.valid_custom_palette?(@custom_palette)
+        raise "Invalid Custom Palette, please update config.custom_palette"
+      end
+    end
 
     def weight
       @weight ||= 300
@@ -53,7 +57,7 @@ module NamePlate
     end
 
     def annotate_position
-      @annotate_position ||= '-0+5'
+      @annotate_position ||= "-0+5"
     end
 
     def annotate_position=(v)

@@ -13,6 +13,8 @@ module NamePlate
           [186, 225, 255]  # baby blue
         ].freeze
 
+        def self.key = :pastel
+
         def initialize
           super(COLORS)
         end

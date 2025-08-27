@@ -33,6 +33,8 @@ module NamePlate
           [173, 214, 125] # Z
         ].freeze
 
+        def self.key = :google
+
         def initialize
           super(GOOGLE_COLORS)
         end

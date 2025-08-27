@@ -223,6 +223,8 @@ module NamePlate
           [126, 169, 36]
         ].freeze
 
+        def self.key = :iwanthue
+
         def initialize
           super(IWANTHUE_COLORS)
         end

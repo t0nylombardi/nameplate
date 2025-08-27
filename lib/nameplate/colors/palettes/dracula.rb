@@ -18,6 +18,8 @@ module NamePlate
           [255, 85, 85]    # red
         ].freeze
 
+        def self.key = :dracula
+
         def initialize
           super(COLORS)
         end

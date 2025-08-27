@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
-require "digest"
 require_relative "colors/palette"
-require_relative "colors/palettes/google"
-require_relative "colors/palettes/iwanthue"
-require_relative "colors/palettes/custom"
+
+# Auto-require everything in palettes folder
+Dir[File.join(__dir__, "colors", "palettes", "*.rb")].sort.each { |f| require f }
 
 module NamePlate
   module Colors
-    # Registry of available palettes
-    REGISTRY = {
-      google: Palettes::Google.new,
-      iwanthue: Palettes::Iwanthue.new,
-      custom: Palettes::Custom.new
-    }.freeze
+    # Build registry by finding all subclasses of Palette
+    REGISTRY = Palettes.constants.map do |const|
+      klass = Palettes.const_get(const)
+      next unless klass.is_a?(Class) && klass < Palette
+      [klass.key, klass.new]
+    end.compact.to_h.freeze
 
-    # Pick a color for a given username based on current palette.
+    # Pick a color for a given username based on the current palette
     #
     # @param username [String]
     # @return [Array<Integer>] RGB triplet

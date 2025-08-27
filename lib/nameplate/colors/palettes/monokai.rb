@@ -16,6 +16,8 @@ module NamePlate
           [230, 219, 116]  # yellow
         ].freeze
 
+        def self.key = :monokai
+
         def initialize
           super(COLORS)
         end

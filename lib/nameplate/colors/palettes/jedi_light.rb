@@ -15,6 +15,8 @@ module NamePlate
           [192, 192, 192]  # silver
         ].freeze
 
+        def self.key = :jedi_light
+
         def initialize
           super(COLORS)
         end

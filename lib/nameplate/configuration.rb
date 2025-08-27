@@ -1,4 +1,6 @@
-module LetterAvatar
+# frozen_string_literal: true
+
+module NamePlate
   module Configuration
     def cache_base_path
       @cache_base_path
@@ -57,7 +59,7 @@ module LetterAvatar
     def annotate_position=(v)
       @annotate_position = v
     end
-    
+
     def letters_count
       @letters_count ||= 1
     end

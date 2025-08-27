@@ -1,4 +1,6 @@
-module LetterAvatar
+# frozen_string_literal: true
+
+module NamePlate
   module HasAvatar
     def self.included(base)
       base.send :include, InstanceMethods
@@ -14,11 +16,11 @@ module LetterAvatar
       end
 
       def avatar_path(size = 64)
-        LetterAvatar.generate(name, size)
+        NamePlate.generate(name, size)
       end
 
       def avatar_url(size = 64)
-        LetterAvatar.path_to_url(avatar_path(size))
+        NamePlate.path_to_url(avatar_path(size))
       end
 
     end

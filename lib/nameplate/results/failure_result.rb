@@ -19,8 +19,16 @@ module NamePlate
       end
 
       # @return [Boolean]
-      def failure?
-        true
+      def failure(argv, stdout, stderr, status)
+        NamePlate::Results::FailureResult.new(
+          error: {
+            message: "Command failed",
+            argv: argv,
+            stdout: stdout,
+            stderr: stderr,
+            status: status
+          }
+        )
       end
     end
   end

@@ -14,12 +14,50 @@ rescue LoadError
   console = IRB
 end
 
-# Rails-style reload!
+# Simple and effective reload method
 def reload!
+  puts "🔄 Reloading NamePlate..."
+
+  # Get the lib directory path
+  lib_path = File.expand_path("../lib", __dir__)
+
+  # Remove the main constant(s)
   Object.send(:remove_const, :NamePlate) if defined?(NamePlate)
-  load File.expand_path("../lib/nameplate.rb", __dir__)
-  puts "✅ NamePlate reloaded!"
+  Object.send(:remove_const, :Nameplate) if defined?(Nameplate)
+
+  # Remove all loaded files from your gem's lib directory
+  $LOADED_FEATURES.delete_if { |file| file.start_with?(lib_path) }
+
+  # Require the main file again - this will trigger all the internal requires
+  begin
+    require "nameplate"
+    puts "✅ NamePlate reloaded successfully!"
+    true
+  rescue => e
+    puts "❌ Error reloading: #{e.message}"
+    puts e.backtrace.first(5)
+    false
+  end
 end
 
-puts "Console loaded. Type `reload!` to reload gem code."
+# Show what files are currently loaded from your gem (for debugging)
+def show_loaded_files
+  lib_path = File.expand_path("../lib", __dir__)
+  loaded = $LOADED_FEATURES.select { |file| file.start_with?(lib_path) }
+
+  if loaded.empty?
+    puts "No nameplate files currently loaded"
+  else
+    puts "Currently loaded nameplate files:"
+    loaded.each { |file| puts "  #{file}" }
+  end
+end
+
+puts "Console loaded for NamePlate gem"
+puts "Commands:"
+puts "  reload!           - Reload the gem"
+puts "  show_loaded_files - Show what files are loaded"
+puts "  exit              - Exit console"
+puts
+
 console.start

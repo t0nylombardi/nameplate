@@ -6,7 +6,7 @@ module NamePlate
     class Cache
       # @return [String] base cache path
       def self.base_path
-        "#{NamePlate.cache_base_path || "public/system"}/letter_avatars/#{Avatar::VERSION}"
+        "#{NamePlate.cache_base_path || "public/system"}/nameplate/#{Avatar::VERSION}"
       end
 
       # @param identity [Identity]

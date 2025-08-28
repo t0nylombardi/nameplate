@@ -7,11 +7,7 @@ module NamePlate
     class Resizer
       # ImageMagick entrypoint.
       # The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
-      IM_CMD = if Gem.win_platform?
-        ["magick", "convert"]
-      else
-        ["magick"]
-      end.freeze
+      IM_CMD = ["magick"].freeze
 
       def initialize(runner: Shell::CommandRunner.new)
         @runner = runner
@@ -36,22 +32,40 @@ module NamePlate
         width = Integer(width)
         height = Integer(height)
 
-        argv = IM_CMD + [
-          from.to_s,
+        argv = IM_CMD + build_argv(from, to, width, height)
+        result = @runner.run(argv)
+
+        raise "Image resize failed: no result from command runner" unless result
+
+        result
+      end
+
+      private
+
+      def build_argv(from, to, width, height)
+        [
+          *IM_CMD,
+          from,
           "-background", "transparent",
           "-gravity", "center",
           "-thumbnail", "#{width}x#{height}^",
           "-extent", "#{width}x#{height}",
           "-unsharp", "2x0.5+0.7+0",
           "-quality", "98",
-          to.to_s
+          to
         ]
+      end
 
-        result = @runner.run(argv)
-        return result if result.success?
-
-        # Provide a more domain-specific error message
-        FailureResult.new(error: {message: "Image resize failed", details: result.error})
+      def failure_result(result:)
+        NamePlate::Results::FailureResult.new(
+          error: {
+            message: "Image resize failed",
+            details: result.error[:message],
+            status: result.error[:status],
+            stdout: result.error[:stdout],
+            stderr: result.error[:stderr]
+          }
+        )
       end
     end
   end

@@ -12,7 +12,7 @@ module NamePlate
       # @return [Identity]
       def self.from_username(username)
         color = NamePlate::Colors.for(username)
-        letters = initials(username, NamePlate.letters_count)
+        letters = initials(username, count(username))
         new(color, letters)
       end
 
@@ -27,6 +27,10 @@ module NamePlate
           .map { |word| word[0] }
           .join
           .upcase[0..count - 1]
+      end
+
+      private_class_method def self.count(username)
+        (username.strip.split(/\s+/).size >= 2) ? 2 : 1
       end
     end
   end

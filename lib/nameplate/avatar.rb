@@ -20,7 +20,7 @@ module NamePlate
     VERSION = 1 # bump on any change to avatar generation
     FULLSIZE = 600
     FILL_COLOR = "rgba(255, 255, 255, 0.65)" # white at 65% opacity
-    FONT_FILE = File.join(File.expand_path("../../", __dir__), "Loto-Light")
+    FONT_FILE = File.expand_path("fonts/Lato-Light.ttf", __dir__)
 
     # Public API entry point
     #

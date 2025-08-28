@@ -11,7 +11,7 @@ module NamePlate
   #
   #   user = User.new.tap { |u| u.name = "Tony" }
   #   user.avatar_path(128)
-  #   # => "public/system/letter_avatars/2/T/226_95_81/128.png"
+  #   # => "public/system/nameplate/2/T/226_95_81/128.png"
   #
   module HasAvatar
     # Return the filesystem path to the generated avatar

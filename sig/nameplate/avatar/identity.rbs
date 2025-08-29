@@ -1,13 +1,28 @@
 module NamePlate
   class Avatar
+    # Represents a derived avatar identity: letters and color.
     class Identity
-      attr_reader color: Array[Integer]
-      attr_reader letters: String
+      @color: untyped
 
-      def initialize: (Array[Integer] color, String letters) -> void
+      @letters: untyped
 
-      def self.from_username: (String username) -> NamePlate::Avatar::Identity
+      attr_reader color: untyped
+
+      attr_reader letters: untyped
+
+      def initialize: (untyped color, untyped letters) -> void
+
+      # Build an identity from a username.
+      #
+      # @param [String] username The input name.
+      # @return [Identity] The derived avatar identity.
+      def self.from_username: (untyped username) -> untyped
+
+      private
+
+      def self.initials: (untyped username, untyped count) -> untyped
+
+      def self.count: (untyped username) -> (2 | 1)
     end
   end
 end
-

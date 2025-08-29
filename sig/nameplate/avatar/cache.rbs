@@ -1,0 +1,25 @@
+module NamePlate
+  class Avatar
+    # Builds file paths for cached avatars.
+    class Cache
+      # Returns the base path for cached avatars.
+      #
+      # @return [String] Base cache path.
+      def self.base_path: () -> ::String
+
+      # Builds the file path for a cached avatar.
+      #
+      # @param [Identity] identity The identity object representing the user.
+      # @param [Integer] size The size of the avatar.
+      # @return [String] The file path for the cached avatar.
+      def self.path: (untyped identity, untyped size) -> untyped
+
+      # Check if a cached avatar exists for the given identity and size.
+      #
+      # @param [Identity] identity The identity object representing the user.
+      # @param [Integer] size The size of the avatar.
+      # @return [Boolean] True if a cached avatar exists, false otherwise.
+      def self.cached?: (untyped identity, untyped size) -> untyped
+    end
+  end
+end

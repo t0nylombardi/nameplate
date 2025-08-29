@@ -1,0 +1,14 @@
+module NamePlate
+  module Colors
+    module Palettes
+      # Inspired by Dracula theme
+      class Dracula < Palette
+        COLORS: ::Array[::Array[40 | 42 | 54] | ::Array[68 | 71 | 90] | ::Array[98 | 114 | 164] | ::Array[139 | 233 | 253] | ::Array[80 | 250 | 123] | ::Array[255 | 184 | 108] | ::Array[255 | 121 | 198] | ::Array[189 | 147 | 249] | ::Array[241 | 250 | 140] | ::Array[255 | 85]]
+
+        def self.key: () -> :dracula
+
+        def initialize: () -> void
+      end
+    end
+  end
+end

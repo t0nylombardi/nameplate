@@ -1,5 +1,5 @@
 module NamePlate
-  VERSION: String
+  extend NamePlate::Configuration
 
   # Setup DSL for configuration
   #

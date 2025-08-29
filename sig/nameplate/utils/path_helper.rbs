@@ -1,0 +1,12 @@
+module Utils
+  module PathHelper
+    # Convert a public file-system path to a URL path.
+    #
+    # @param path [String, Pathname]
+    # @return [String]
+    #
+    # Examples:
+    #   PathHelper.path_to_url("public/avatars/a.png") #=> "/avatars/a.png"
+    def self?.path_to_url: (untyped path) -> untyped
+  end
+end

@@ -1,0 +1,14 @@
+module NamePlate
+  module Colors
+    module Palettes
+      # Inspired by Monokai theme
+      class Monokai < Palette
+        COLORS: ::Array[::Array[39 | 40 | 34] | ::Array[248 | 242] | ::Array[249 | 38 | 114] | ::Array[166 | 226 | 46] | ::Array[253 | 151 | 31] | ::Array[102 | 217 | 239] | ::Array[174 | 129 | 255] | ::Array[230 | 219 | 116]]
+
+        def self.key: () -> :monokai
+
+        def initialize: () -> void
+      end
+    end
+  end
+end

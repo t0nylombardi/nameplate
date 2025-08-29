@@ -1,0 +1,29 @@
+module NamePlate
+  # Avatar generation from usernames.
+  #
+  # Responsibilities are split into:
+  # - {Identity}: maps username → initials + color
+  # - {Cache}: builds consistent cache paths
+  # - {Generator}: orchestrates avatar creation and resizing
+  #
+  # Public API:
+  #   NamePlate::Avatar.generate("John Doe", 128)
+  #
+  class Avatar
+    VERSION: 1
+
+    FULLSIZE: 600
+
+    FILL_COLOR: "rgba(255, 255, 255, 0.65)"
+
+    FONT_FILE: untyped
+
+    # Public API entry point
+    #
+    # @param username [String]
+    # @param size [Integer]
+    # @param opts [Hash] options, e.g. { cache: true }
+    # @return [String] path to avatar file
+    def self.generate: (untyped username, untyped size, ?::Hash[untyped, untyped] opts) -> untyped
+  end
+end

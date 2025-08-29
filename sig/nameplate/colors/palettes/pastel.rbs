@@ -1,0 +1,14 @@
+module NamePlate
+  module Colors
+    module Palettes
+      # A soft pastel theme
+      class Pastel < Palette
+        COLORS: ::Array[::Array[255 | 179 | 186] | ::Array[255 | 223 | 186] | ::Array[255 | 186] | ::Array[186 | 255 | 201] | ::Array[186 | 225 | 255]]
+
+        def self.key: () -> :pastel
+
+        def initialize: () -> void
+      end
+    end
+  end
+end

@@ -10,3 +10,28 @@ task default: %i[specstandard]
 task :standard do
   Standard::RakeTask.new.execute
 end
+
+require "bundler/gem_tasks"
+
+namespace :rbs do
+  SIG_DIR = "sig"
+
+  desc "Remove generated RBS files"
+  task :clean do
+    sh "rm -rf #{SIG_DIR}"
+  end
+
+  desc "Generate RBS files mirroring lib/ into sig/"
+  task :generate do
+    sh "mkdir -p #{SIG_DIR}"
+    ruby_files = Dir.glob("lib/**/*.rb")
+
+    ruby_files.each do |rb|
+      out = File.join(SIG_DIR, rb.sub(%r{\Alib/}, "").sub(/\.rb\z/, ".rbs"))
+      out_dir = File.dirname(out)
+      sh "mkdir -p #{out_dir}"
+      sh "bundle exec rbs prototype rb #{rb} > #{out}"
+    end
+    puts "Generated #{ruby_files.size} RBS file(s) under #{SIG_DIR}/"
+  end
+end

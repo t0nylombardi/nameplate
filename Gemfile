@@ -6,15 +6,15 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
-  gem "rake", "~> 13.0"
-  gem "pry-byebug"
-  gem "standard"
-  gem "ruby_audit"
+  gem "actionview"
   gem "brakeman"
   gem "irb"
-  gem "rdoc"
-  # Type signatures and checker
+  gem "pry-byebug"
+  gem "rake", "~> 13.3"
   gem "rbs"
+  gem "rdoc"
+  gem "ruby_audit"
+  gem "standard"
   gem "steep"
 end
 

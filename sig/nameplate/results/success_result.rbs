@@ -1,0 +1,21 @@
+module NamePlate
+  module Results
+    # Represents a successful operation result.
+    #
+    # Provides a consistent API for checking success
+    # and accessing the returned value.
+    class SuccessResult
+      @value: untyped
+
+      attr_reader value: untyped
+
+      def initialize: (value: untyped) -> void
+
+      # @return [Boolean]
+      def success?: () -> true
+
+      # @return [Boolean]
+      def failure?: () -> false
+    end
+  end
+end

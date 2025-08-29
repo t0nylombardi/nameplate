@@ -1,0 +1,30 @@
+module NamePlate
+  module Image
+    # Resizes images with MiniMagick.
+    #
+    # Responsibility: take a source image and produce a resized
+    # version that fits the requested WxH, centered, with transparent padding.
+    #
+    # Used by {Avatar::Generator} when a non-fullsize avatar is requested.
+    class Resizer
+      # Entry point to resize an image.
+      #
+      # @param from [String] path to the source image file
+      # @param to [String] path to the destination image file
+      # @param width [Integer] target width in pixels
+      # @param height [Integer] target height in pixels
+      # @return [NamePlate::Results::SuccessResult, NamePlate::Results::FailureResult]
+      def resize: (from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+
+      private
+
+      def validate_inputs!: (from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+
+      def process_resize: (from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+
+      def success_result: (untyped path) -> untyped
+
+      def failure_result: (untyped exception, from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+    end
+  end
+end

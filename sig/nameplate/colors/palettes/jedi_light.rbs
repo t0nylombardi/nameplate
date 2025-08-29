@@ -1,0 +1,14 @@
+module NamePlate
+  module Colors
+    module Palettes
+      # A "light side" Jedi-inspired palette
+      class JediLight < Palette
+        COLORS: ::Array[::Array[255] | ::Array[0 | 87 | 183] | ::Array[114 | 137 | 218] | ::Array[0 | 204 | 255] | ::Array[255 | 214 | 10] | ::Array[173 | 216 | 230] | ::Array[192]]
+
+        def self.key: () -> :jedi_light
+
+        def initialize: () -> void
+      end
+    end
+  end
+end

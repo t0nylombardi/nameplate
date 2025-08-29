@@ -1,0 +1,15 @@
+module NamePlate
+  module Colors
+    module Palettes
+      class Google < Palette
+        GOOGLE_COLORS: ::Array[::Array[226 | 95 | 81] | ::Array[242 | 96 | 145] | ::Array[187 | 101 | 202] | ::Array[149 | 114 | 207] | ::Array[120 | 132 | 205] | ::Array[91 | 149 | 249] | ::Array[72 | 194 | 249] | ::Array[69 | 208 | 226] | ::Array[72 | 182 | 172] | ::Array[82 | 188 | 137] | ::Array[155 | 206 | 95] | ::Array[212 | 227 | 74] | ::Array[254 | 218 | 16] | ::Array[247 | 192 | 0] | ::Array[255 | 168 | 0] | ::Array[255 | 138 | 96] | ::Array[194] | ::Array[143 | 164 | 175] | ::Array[162 | 136 | 126] | ::Array[163] | ::Array[175 | 181 | 226] | ::Array[179 | 155 | 221] | ::Array[124 | 222 | 235] | ::Array[188 | 170 | 164] | ::Array[173 | 214 | 125]]
+
+        def self.key: () -> :google
+
+        def initialize: () -> void
+
+        def pick: (untyped username) -> untyped
+      end
+    end
+  end
+end

@@ -1,53 +1,176 @@
 module NamePlate
   class Avatar
+    # Generates PNG avatars from usernames using MiniMagick/ImageMagick.
+    #
+    # - Derives an {Identity} (initial letters + background color) from a username.
+    # - Produces a square PNG at the requested size (capped at {Avatar::FULLSIZE}).
+    # - Uses {Avatar::Cache} to reuse existing files and to build deterministic paths.
+    #
+    # The high-level API for consumers is {NamePlate::Avatar.generate}. This class
+    # exists as the lower-level, orchestration entry point that handles logging,
+    # validation, caching, and MiniMagick invocation.
+    #
+    # Requirements:
+    # - ImageMagick must be installed and accessible on the PATH (MiniMagick uses `convert`).
+    # - A valid font file must be configured at {Avatar::FONT_FILE}.
+    #
+    # Configuration sources used during generation:
+    # - `NamePlate.pointsize`, `NamePlate.weight`, `NamePlate.annotate_position`
+    # - {Avatar::FILL_COLOR} (foreground text/letters color)
+    # - {Avatar::FONT_FILE} (font used by ImageMagick)
+    # - `NamePlate.cache_base_path` (root for cached files; see {Avatar::Cache})
+    # - `ENV["NAMEPLATE_LOG_LEVEL"]` (set to `DEBUG` for verbose logging)
+    #
+    # @example Generate and return a cached 128px avatar path
+    #   path = NamePlate::Avatar::Generator.call("Tony Baloney", 128)
+    #   # => "public/system/nameplate/1/TB/163_163_163/128.png"
+    #
+    # @example Disable cache and provide a custom logger
+    #   logger = Logger.new($stderr)
+    #   path = NamePlate::Avatar::Generator.call("Ada Lovelace", 256, cache: false, logger: logger)
+    #   # Generates a fresh 256px PNG even if a cached one exists
+    #
+    # @see NamePlate::Avatar.generate User-facing convenience API
+    # @see NamePlate::Avatar::Cache Path building and cache helpers
     class Generator
-      # Errors
-      class GenerationError < ::StandardError
+      @username: untyped
+
+      @size: untyped
+
+      @cache: untyped
+
+      @font: untyped
+
+      @fill: untyped
+
+      @logger: untyped
+
+      # Base class for avatar generation errors
+      # @abstract
+      # @since 0.1.0
+      class GenerationError < StandardError
       end
 
+      # Raised when MiniMagick/ImageMagick fails to render an avatar.
+      # @since 0.1.0
       class ImageMagickError < GenerationError
       end
 
+      # Raised when filesystem operations (write/verify) fail.
+      # @since 0.1.0
       class FileSystemError < GenerationError
       end
 
+      # Raised when inputs or configuration are invalid.
+      # @since 1.0.0
       class ConfigurationError < GenerationError
       end
 
-      # Readers
-      attr_reader username: String
-      attr_reader size: Integer
-      attr_reader cache: bool
-      attr_reader font: String
-      attr_reader fill: String
-      attr_reader logger: ::Logger
+      # Instantiate a new generator.
+      #
+      # Prefer {::call} unless you need a long-lived instance.
+      #
+      # @param username [String] The source name used to derive initials and color.
+      # @param size [Integer] Target size in pixels (> 0). Capped at {Avatar::FULLSIZE}.
+      # @param cache [Boolean] Reuse existing cached PNG when present. Defaults to `true`.
+      # @param logger [Logger, nil] Optional logger; defaults to a simple STDOUT logger.
+      # @raise [ConfigurationError] If parameters are invalid or required assets are missing.
+      def initialize: (untyped username, untyped size, ?cache: bool, ?logger: untyped?) -> void
 
-      # Constructors
-      def initialize: (String username, Integer size, ?cache: bool, ?logger: ::Logger?) -> void
+      # Convenience entry point that builds, runs, and returns the generated path.
+      #
+      # @param username [String]
+      # @param size [Integer]
+      # @param cache [Boolean]
+      # @param logger [Logger, nil]
+      # @return [String] Filesystem path to the generated PNG.
+      # @raise [ConfigurationError] If inputs/configuration are invalid.
+      # @raise [ImageMagickError] If MiniMagick/ImageMagick fails to render.
+      # @raise [FileSystemError] If the resulting file fails verification.
+      # @raise [GenerationError] For other generation-related failures.
+      def self.call: (untyped username, untyped size, ?cache: bool, ?logger: untyped?) -> untyped
 
-      # Class API
-      def self.call: (String username, Integer size, ?cache: bool, ?logger: ::Logger?) -> String
-
-      # Public API
-      def execute!: () -> String
+      # Run the avatar generation pipeline: build identity, resolve cache path,
+      # and generate if needed.
+      #
+      # @return [String] Path to the generated (or cached) avatar PNG.
+      # @raise [ConfigurationError] If inputs/configuration are invalid.
+      # @raise [ImageMagickError] If MiniMagick/ImageMagick fails to render.
+      # @raise [FileSystemError] Reserved for callers that optionally verify output.
+      def execute!: () -> untyped
 
       private
-      # Orchestration
-      def generate: () -> String
-      def build_identity: () -> NamePlate::Avatar::Identity
-      def normalize_size: () -> Integer
 
-      # Cache helpers
-      def cached?: (String path) -> bool
-      def use_cached: (String path) -> String
+      attr_reader username: untyped
 
-      # Image generation (MiniMagick/ImageMagick)
-      def generate_avatar: (NamePlate::Avatar::Identity identity, Integer size, (String | ::Pathname) filename) -> void
+      attr_reader size: untyped
 
-      # Misc helpers
-      def to_rgb: (Array[Integer] color) -> String
-      def validate_inputs!: () -> void
-      def default_logger: () -> ::Logger
+      attr_reader cache: untyped
+
+      attr_reader font: untyped
+
+      attr_reader fill: untyped
+
+      attr_reader logger: untyped
+
+      # Generate or reuse an avatar at the requested size.
+      #
+      # Builds an identity from `username`, computes the cache path,
+      # renders the PNG if not already cached, and returns the file path.
+      #
+      # @return [String] Filesystem path to the generated or cached avatar PNG.
+      def generate: () -> untyped
+
+      # Build an avatar identity from the configured username.
+      #
+      # @return [NamePlate::Avatar::Identity] Derived initials and background color.
+      def build_identity: () -> untyped
+
+      # Clamp the requested size to the maximum full size.
+      #
+      # @return [Integer] Target size in pixels (<= {Avatar::FULLSIZE}).
+      def normalize_size: () -> untyped
+
+      # Check if a cached avatar exists at the given path.
+      #
+      # @param [String] path The expected avatar file path.
+      # @return [Boolean] True if a cached file exists, false otherwise.
+      def cached?: (untyped path) -> untyped
+
+      # Use an existing cached avatar path.
+      #
+      # @param [String] path The cached avatar file path.
+      # @return [String] The same cached path that was provided.
+      def use_cached: (untyped path) -> untyped
+
+      # Render the avatar image using MiniMagick/ImageMagick.
+      #
+      # @param identity [Identity] Letters and background color.
+      # @param size [Integer] Target size in pixels.
+      # @param filename [String, Pathname] Output file path.
+      # @raise [ImageMagickError] If MiniMagick raises during conversion.
+      def generate_avatar: (untyped identity, untyped size, untyped filename) -> untyped
+
+      # Convert `[r, g, b]` array to `rgb(r,g,b)` string accepted by ImageMagick.
+      #
+      # @param color [Array<Integer>] RGB values in the 0..255 range.
+      # @return [String] `rgb(r,g,b)` formatted string.
+      # @raise [ConfigurationError] If the color is not a valid triplet.
+      def to_rgb: (untyped color) -> untyped
+
+      # Validate constructor inputs and required configuration.
+      #
+      # @return [void]
+      # @raise [ConfigurationError] When any validation fails.
+      def validate_inputs!: () -> untyped
+
+      # Build a default logger that writes to STDOUT.
+      #
+      # Log level defaults to `INFO`; set `ENV["NAMEPLATE_LOG_LEVEL"] = "DEBUG"`
+      # to enable verbose output during generation.
+      #
+      # @return [Logger]
+      def default_logger: () -> untyped
     end
   end
 end

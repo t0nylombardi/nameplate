@@ -1,0 +1,13 @@
+module NamePlate
+  module Colors
+    module Palettes
+      class Custom < Palette
+        def self.key: () -> :custom
+
+        def initialize: () -> void
+
+        def pick: (untyped username) -> untyped
+      end
+    end
+  end
+end

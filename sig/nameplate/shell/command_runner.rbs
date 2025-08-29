@@ -1,0 +1,23 @@
+module NamePlate
+  module Shell
+    # Runs external commands with explicit argument arrays (no shell eval).
+    # Single Responsibility: Execute a command and capture outputs.
+    #
+    # Returns SuccessResult or FailureResult with stdout/stderr/status.
+    class CommandRunner
+      # Execute a command safely.
+      #
+      # @param argv [Array<String>] the command and its arguments
+      # @return [NamePlate::Results::SuccessResult, NamePlate::Results::FailureResult]
+      def run: (untyped argv) -> untyped
+
+      private
+
+      def validate_argv!: (untyped argv) -> (nil | untyped)
+
+      def success_result: (stdout: untyped, status: untyped) -> untyped
+
+      def failure_result: (?argv: untyped?, ?stdout: untyped?, ?stderr: untyped?, ?status: untyped?, ?exception: untyped?) -> untyped
+    end
+  end
+end

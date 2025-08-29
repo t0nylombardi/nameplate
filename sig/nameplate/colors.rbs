@@ -1,0 +1,10 @@
+module NamePlate
+  module Colors
+    self.@registry: untyped
+
+    # Lazily build registry from all subclasses of Palette
+    def self.registry: () -> untyped
+
+    def self.for: (untyped username) -> untyped
+  end
+end

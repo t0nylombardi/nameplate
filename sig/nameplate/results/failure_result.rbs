@@ -1,0 +1,21 @@
+module NamePlate
+  module Results
+    # Represents a failed operation result.
+    #
+    # Provides a consistent API for checking failure
+    # and accessing error details.
+    class FailureResult
+      @error: untyped
+
+      attr_reader error: untyped
+
+      def initialize: (error: untyped) -> void
+
+      # @return [Boolean]
+      def success?: () -> false
+
+      # @return [Boolean]
+      def failure: (untyped argv, untyped stdout, untyped stderr, untyped status) -> untyped
+    end
+  end
+end

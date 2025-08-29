@@ -1,0 +1,57 @@
+module NamePlate
+  module Configuration
+    @cache_base_path: untyped
+
+    @font: untyped
+
+    @fill_color: untyped
+
+    @colors_palette: untyped
+
+    @custom_palette: untyped
+
+    @weight: untyped
+
+    @annotate_position: untyped
+
+    @letters_count: untyped
+
+    @pointsize: untyped
+
+    def cache_base_path: () -> untyped
+
+    def cache_base_path=: (untyped v) -> untyped
+
+    def font: () -> untyped
+
+    def font=: (untyped v) -> untyped
+
+    def fill_color: () -> untyped
+
+    def fill_color=: (untyped v) -> untyped
+
+    def colors_palette: () -> untyped
+
+    def colors_palette=: (untyped v) -> (untyped | nil)
+
+    def custom_palette: () -> untyped
+
+    def custom_palette=: (untyped v) -> untyped
+
+    def weight: () -> untyped
+
+    def weight=: (untyped v) -> untyped
+
+    def annotate_position: () -> untyped
+
+    def annotate_position=: (untyped v) -> untyped
+
+    def letters_count: () -> untyped
+
+    def letters_count=: (untyped v) -> untyped
+
+    def pointsize: () -> untyped
+
+    def pointsize=: (untyped v) -> untyped
+  end
+end

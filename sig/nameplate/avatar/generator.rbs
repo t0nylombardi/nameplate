@@ -1,0 +1,65 @@
+module NamePlate
+  class Avatar
+    class Generator
+      # Errors
+      class GenerationError < ::StandardError; end
+      class ImageMagickError < GenerationError; end
+      class FileSystemError < GenerationError; end
+      class ConfigurationError < GenerationError; end
+
+      # Readers
+      attr_reader username: String
+      attr_reader size: Integer
+      attr_reader cache: bool
+      attr_reader font: String
+      attr_reader fill: String
+      attr_reader logger: ::Logger
+
+      # Constructors
+      def initialize: (String username, Integer size, ?cache: bool, ?logger: ::Logger?) -> void
+
+      # Class API
+      def self.call: (String username, Integer size, ?cache: bool, ?logger: ::Logger?) -> String
+
+      # Public API
+      def execute!: () -> String
+
+      private
+      # Orchestration
+      def generate: () -> String
+      def build_identity: () -> NamePlate::Avatar::Identity
+      def normalize_size: () -> Integer
+
+      # Cache helpers
+      def cached?: (String path) -> bool
+      def use_cached: (String path) -> String
+
+      # Fullsize helpers
+      def ensure_fullsize: (NamePlate::Avatar::Identity identity) -> String
+      def fullsize_path_for: (NamePlate::Avatar::Identity identity) -> String
+      def fullsize_cached?: (String path) -> bool
+      def use_existing_fullsize: (String path) -> String
+      def generate_fullsize_and_verify: (NamePlate::Avatar::Identity identity, String path) -> String
+
+      # Fullsize generation (convert)
+      def generate_fullsize: (NamePlate::Avatar::Identity identity, String filename) -> void
+      def run_convert: (NamePlate::Avatar::Identity identity, String filename) -> void
+      def configure_convert_canvas: (untyped c, NamePlate::Avatar::Identity identity) -> void
+      def configure_convert_text: (untyped c, NamePlate::Avatar::Identity identity) -> void
+      def append_output: (untyped c, String filename) -> void
+      def quoted_fill: () -> String
+
+      # Resize helpers
+      def ensure_resized: (String fullsize_path, String target_path, Integer target_size) -> String
+      def log_resize_start: (Integer target_size) -> void
+      def resize_image: (String fullsize_path, String target_path, Integer target_size) -> (NamePlate::Results::SuccessResult | NamePlate::Results::FailureResult)
+      def validate_resize!: ((NamePlate::Results::SuccessResult | NamePlate::Results::FailureResult) result) -> void
+      def verify_resized!: (String path) -> void
+
+      # Misc helpers
+      def to_rgb: (Array[Integer] color) -> String
+      def validate_inputs!: () -> void
+      def default_logger: () -> ::Logger
+    end
+  end
+end

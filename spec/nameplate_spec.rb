@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe NameplateTest do
+RSpec.describe NamePlate do
   it "has a version number" do
-    expect(NameplateTest::VERSION).not_to be nil
+    expect(NamePlate::VERSION).not_to be nil
   end
 
   it "does something useful" do

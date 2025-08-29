@@ -39,15 +39,15 @@ module NamePlate
     class Generator
       # Base class for avatar generation errors
       # @abstract
-      # @since 1.0.0
-      class GenerationError < StandardError; end
+      # @since 0.1.0
+      class GenerationError < StandardErrorend; end
 
       # Raised when MiniMagick/ImageMagick fails to render an avatar.
-      # @since 1.0.0
+      # @since 0.1.0
       class ImageMagickError < GenerationError; end
 
       # Raised when filesystem operations (write/verify) fail.
-      # @since 1.0.0
+      # @since 0.1.0
       class FileSystemError < GenerationError; end
 
       # Raised when inputs or configuration are invalid.
@@ -131,7 +131,7 @@ module NamePlate
 
       # Build an avatar identity from the configured username.
       #
-      # @return [Identity] Derived initials and background color.
+      # @return [NamePlate::Avatar::Identity] Derived initials and background color.
       def build_identity
         Avatar::Identity.from_username(username).tap do |identity|
           logger.debug "Generated identity: #{identity.inspect}"

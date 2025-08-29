@@ -1,0 +1,13 @@
+module NamePlate
+  class Avatar
+    class Identity
+      attr_reader color: Array[Integer]
+      attr_reader letters: String
+
+      def initialize: (Array[Integer] color, String letters) -> void
+
+      def self.from_username: (String username) -> NamePlate::Avatar::Identity
+    end
+  end
+end
+

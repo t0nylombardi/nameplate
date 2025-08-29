@@ -13,6 +13,9 @@ group :development do
   gem "brakeman"
   gem "irb"
   gem "rdoc"
+  # Type signatures and checker
+  gem "rbs"
+  gem "steep"
 end
 
 group :test do

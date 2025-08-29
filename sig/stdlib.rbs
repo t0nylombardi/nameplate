@@ -1,0 +1,8 @@
+# Minimal stdlib stubs used by our signatures
+
+class Logger
+end
+
+class Pathname
+end
+

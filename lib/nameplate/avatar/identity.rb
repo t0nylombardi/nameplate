@@ -6,31 +6,35 @@ module NamePlate
     class Identity
       attr_reader :color, :letters
 
+      def initialize(color, letters)
+        @color = color
+        @letters = letters
+      end
+
       # Build an identity from a username.
       #
-      # @param username [String] input name
-      # @return [Identity]
+      # @param [String] username The input name.
+      # @return [Identity] The derived avatar identity.
       def self.from_username(username)
         color = NamePlate::Colors.for(username)
         letters = initials(username, count(username))
         new(color, letters)
       end
 
-      def initialize(color, letters)
-        @color = color
-        @letters = letters
-      end
+      class << self
+        private
 
-      private_class_method def self.initials(username, count)
-        username
-          .split(/\s+/)
-          .map { |word| word[0] }
-          .join
-          .upcase[0..count - 1]
-      end
+        def initials(username, count)
+          username
+            .split(/\s+/)
+            .map { |word| word[0] }
+            .join
+            .upcase[0..count - 1]
+        end
 
-      private_class_method def self.count(username)
-        (username.strip.split(/\s+/).size >= 2) ? 2 : 1
+        def count(username)
+          (username.strip.split(/\s+/).size >= 2) ? 2 : 1
+        end
       end
     end
   end

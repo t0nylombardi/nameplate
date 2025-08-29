@@ -2,10 +2,17 @@ module NamePlate
   class Avatar
     class Generator
       # Errors
-      class GenerationError < ::StandardError; end
-      class ImageMagickError < GenerationError; end
-      class FileSystemError < GenerationError; end
-      class ConfigurationError < GenerationError; end
+      class GenerationError < ::StandardError
+      end
+
+      class ImageMagickError < GenerationError
+      end
+
+      class FileSystemError < GenerationError
+      end
+
+      class ConfigurationError < GenerationError
+      end
 
       # Readers
       attr_reader username: String
@@ -34,27 +41,8 @@ module NamePlate
       def cached?: (String path) -> bool
       def use_cached: (String path) -> String
 
-      # Fullsize helpers
-      def ensure_fullsize: (NamePlate::Avatar::Identity identity) -> String
-      def fullsize_path_for: (NamePlate::Avatar::Identity identity) -> String
-      def fullsize_cached?: (String path) -> bool
-      def use_existing_fullsize: (String path) -> String
-      def generate_fullsize_and_verify: (NamePlate::Avatar::Identity identity, String path) -> String
-
-      # Fullsize generation (convert)
-      def generate_fullsize: (NamePlate::Avatar::Identity identity, String filename) -> void
-      def run_convert: (NamePlate::Avatar::Identity identity, String filename) -> void
-      def configure_convert_canvas: (untyped c, NamePlate::Avatar::Identity identity) -> void
-      def configure_convert_text: (untyped c, NamePlate::Avatar::Identity identity) -> void
-      def append_output: (untyped c, String filename) -> void
-      def quoted_fill: () -> String
-
-      # Resize helpers
-      def ensure_resized: (String fullsize_path, String target_path, Integer target_size) -> String
-      def log_resize_start: (Integer target_size) -> void
-      def resize_image: (String fullsize_path, String target_path, Integer target_size) -> (NamePlate::Results::SuccessResult | NamePlate::Results::FailureResult)
-      def validate_resize!: ((NamePlate::Results::SuccessResult | NamePlate::Results::FailureResult) result) -> void
-      def verify_resized!: (String path) -> void
+      # Image generation (MiniMagick/ImageMagick)
+      def generate_avatar: (NamePlate::Avatar::Identity identity, Integer size, (String | ::Pathname) filename) -> void
 
       # Misc helpers
       def to_rgb: (Array[Integer] color) -> String

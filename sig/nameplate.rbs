@@ -1,4 +1,39 @@
 module NamePlate
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  # Setup DSL for configuration
+  #
+  # Example:
+  #   NamePlate.setup do |config|
+  #     config.cache_base_path = "public/system"
+  #     config.colors_palette  = :dracula
+  #   end
+  def self.setup: () { (untyped) -> untyped } -> untyped
+
+  # Public API: generate avatar for a given username
+  #
+  # @param username [String]
+  # @param size [Integer]
+  # @return [String] path to generated avatar
+  def self.generate: (untyped username, untyped size) -> untyped
+
+  # Resize an image and return a structured result
+  #
+  # @param from [String] source path
+  # @param to [String] destination path
+  # @param width [Integer]
+  # @param height [Integer]
+  # @return [SuccessResult, FailureResult]
+  def self.resize_image: (from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+
+  # Legacy API: returns true/false instead of Result
+  #
+  # @deprecated prefer {resize_image}
+  def self.resize: (untyped from, untyped to, untyped width, untyped height) -> untyped
+
+  # Convert a filesystem path to a URL
+  #
+  # @param path [String, Pathname]
+  # @return [String]
+  def self.path_to_url: (untyped path) -> untyped
 end

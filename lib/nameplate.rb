@@ -11,7 +11,6 @@ require_relative "nameplate/avatar"
 require_relative "nameplate/colors"
 require_relative "nameplate/has_avatar"
 require_relative "nameplate/image/resizer"
-require_relative "nameplate/shell/command_runner"
 require_relative "nameplate/utils/path_helper"
 require_relative "nameplate/view_helpers/avatar"
 

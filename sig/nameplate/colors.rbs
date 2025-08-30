@@ -8,6 +8,12 @@ module NamePlate
 
     def self.for: (untyped username) -> untyped
 
+    # Validate a custom palette of colors.
+    #
+    # @param [Array[Integer]] palette The custom palette of colors.
+    # @return [Boolean] Whether the custom palette is valid.
+    def self.valid_custom_palette?: (untyped palette) -> (false | true)
+
     class Palette
       @colors: Array[color]
       attr_reader colors: Array[color]
@@ -23,12 +29,6 @@ module NamePlate
 
       # Picks one RGB triplet for the username
       def pick: (String username) -> color
-
-      # Validate a custom palette of colors.
-      #
-      # @param [Array[Integer]] palette The custom palette of colors.
-      # @return [Boolean] Whether the custom palette is valid.
-      def self.valid_custom_palette?: (untyped palette) -> (false | true)
 
       private
       def hash_index: (String username) -> Integer

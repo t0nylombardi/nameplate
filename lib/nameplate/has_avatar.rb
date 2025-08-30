@@ -19,7 +19,7 @@ module NamePlate
     # @param size [Integer] size in px (default 64)
     # @return [String] path to avatar image
     def avatar_path(size = 64)
-      NamePlate::Avatar.generate(name, size)
+      NamePlate::Avatar.generate(username, size)
     end
 
     # Return the URL path to the generated avatar

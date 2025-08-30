@@ -33,6 +33,8 @@ module NamePlate
       def letter_avatar_tag: (untyped name, ?::Integer size, ?::Hash[untyped, untyped] options) -> untyped
 
       extend ActionView::Helpers::AssetTagHelper
+
+      def image_tag: (String path, ?Hash[untyped, untyped] options) -> String
     end
   end
 end

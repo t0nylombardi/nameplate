@@ -16,7 +16,10 @@ module NamePlate
 
     FILL_COLOR: "rgba(255, 255, 255, 0.65)"
 
-    FONT_FILE: untyped
+    FONT_FILE: String
+
+    def username: () -> String
+    def username=: (String) -> String
 
     # Public API entry point
     #
@@ -24,6 +27,6 @@ module NamePlate
     # @param size [Integer]
     # @param opts [Hash] options, e.g. { cache: true }
     # @return [String] path to avatar file
-    def self.generate: (untyped username, untyped size, ?::Hash[untyped, untyped] opts) -> untyped
+    def self.generate: (::String name, ::Integer size, ?::Hash[untyped, untyped] opts) -> String
   end
 end

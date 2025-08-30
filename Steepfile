@@ -9,7 +9,6 @@ target :lib do
 
   # You can add libraries once you install RBS collections for gems
   # via `bundle exec rbs collection init && install`, then uncomment:
-  # library "pathname"
-  # library "logger"
+  library "pathname", "fileutils", "securerandom", "digest", "base64"
+  library "logger", "rspec", "actionview"
 end
-

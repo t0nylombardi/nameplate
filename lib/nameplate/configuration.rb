@@ -11,7 +11,7 @@ module NamePlate
     end
 
     def font
-      @font || Avatar::FONT_FILENAME
+      @font || Avatar::FONT_FILE
     end
 
     def font=(v)
@@ -38,6 +38,10 @@ module NamePlate
       @custom_palette ||= nil
     end
 
+    # Set a custom palette of colors to use when colors_palette is :custom
+    #
+    # @param [Array[Integer]] v The custom palette of colors.
+    # @return [Array[Integer]] The custom palette of colors.
     def custom_palette=(v)
       @custom_palette = v
       if @custom_palette.nil? && @colors_palette == :custom

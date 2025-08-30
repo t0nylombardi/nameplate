@@ -11,17 +11,24 @@ module NamePlate
   #   user.avatar_path(128)
   #   # => "public/system/nameplate/2/T/226_95_81/128.png"
   #
+
+
+
   module HasAvatar
+    def username: () -> String
+    def username=: (String) -> String
+
     # Return the filesystem path to the generated avatar
     #
     # @param size [Integer] size in px (default 64)
     # @return [String] path to avatar image
-    def avatar_path: (?::Integer size) -> untyped
+    def avatar_path: (?Integer size) -> String
 
     # Return the URL path to the generated avatar
     #
     # @param size [Integer] size in px (default 64)
     # @return [String] URL for avatar image
-    def avatar_url: (?::Integer size) -> untyped
+    def avatar_url:  (?Integer size) -> String
   end
+
 end

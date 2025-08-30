@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "action_view"
+require "action_view/helpers"
+
 module NamePlate
   module ViewHelpers
     # Rails view helpers for rendering avatars in controllers/views.

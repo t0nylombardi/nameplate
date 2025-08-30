@@ -1,0 +1,29 @@
+module MiniMagick
+  # Provides high-level image API (open, write, etc.)
+  class Image
+    def self.open: (String path) -> Image
+    def self.create: (String format) { (IO) -> void } -> Image
+
+    def combine_options: () { (untyped) -> void } -> void
+    def write: (String path) -> void
+  end
+
+  # Command builder for ImageMagick's `convert`
+  class Tool
+    class Convert
+      def self.new: () -> Convert
+      def size: (String) -> void
+      def pointsize: (String) -> void
+      def font: (String) -> void
+      def weight: (String) -> void
+      def fill: (String) -> void
+      def gravity: (String) -> void
+      def annotate: (String, String) -> void
+      def << : (String) -> void
+      def call: () -> void
+    end
+  end
+
+  # Shortcut like `MiniMagick.convert`
+  def self.convert: () { (Tool::Convert) -> void } -> Tool::Convert
+end

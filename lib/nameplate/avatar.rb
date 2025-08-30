@@ -20,7 +20,9 @@ module NamePlate
     VERSION = 1 # bump on any change to avatar generation
     FULLSIZE = 600
     FILL_COLOR = "rgba(255, 255, 255, 0.65)" # white at 65% opacity
-    FONT_FILE = File.expand_path("fonts/Roboto-Medium", __dir__)
+    # Use __dir__ and fall back to the current working directory for Steep
+    # which can type __dir__ as String | nil.
+    FONT_FILE = File.expand_path("fonts/Roboto-Medium", __dir__ || Dir.pwd)
 
     # Public API entry point
     #

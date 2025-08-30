@@ -119,29 +119,29 @@ module NamePlate
       # renders the PNG if not already cached, and returns the file path.
       #
       # @return [String] Filesystem path to the generated or cached avatar PNG.
-      def generate: () -> untyped
+      def generate: () -> String
 
       # Build an avatar identity from the configured username.
       #
       # @return [NamePlate::Avatar::Identity] Derived initials and background color.
-      def build_identity: () -> untyped
+      def build_identity: () -> NamePlate::Avatar::Identity
 
       # Clamp the requested size to the maximum full size.
       #
       # @return [Integer] Target size in pixels (<= {Avatar::FULLSIZE}).
-      def normalize_size: () -> untyped
+      def normalize_size: () -> Integer
 
       # Check if a cached avatar exists at the given path.
       #
       # @param [String] path The expected avatar file path.
       # @return [Boolean] True if a cached file exists, false otherwise.
-      def cached?: (untyped path) -> untyped
+      def cached?: (String path) -> bool
 
       # Use an existing cached avatar path.
       #
       # @param [String] path The cached avatar file path.
       # @return [String] The same cached path that was provided.
-      def use_cached: (untyped path) -> untyped
+      def use_cached: (String path) -> String
 
       # Render the avatar image using MiniMagick/ImageMagick.
       #
@@ -149,20 +149,20 @@ module NamePlate
       # @param size [Integer] Target size in pixels.
       # @param filename [String, Pathname] Output file path.
       # @raise [ImageMagickError] If MiniMagick raises during conversion.
-      def generate_avatar: (untyped identity, untyped size, untyped filename) -> untyped
+      def generate_avatar: (NamePlate::Avatar::Identity identity, Integer size, String filename) -> untyped
 
       # Convert `[r, g, b]` array to `rgb(r,g,b)` string accepted by ImageMagick.
       #
       # @param color [Array<Integer>] RGB values in the 0..255 range.
       # @return [String] `rgb(r,g,b)` formatted string.
       # @raise [ConfigurationError] If the color is not a valid triplet.
-      def to_rgb: (untyped color) -> untyped
+      def to_rgb: (Array[Integer] color) -> String
 
       # Validate constructor inputs and required configuration.
       #
       # @return [void]
       # @raise [ConfigurationError] When any validation fails.
-      def validate_inputs!: () -> untyped
+      def validate_inputs!: () -> void
 
       # Build a default logger that writes to STDOUT.
       #
@@ -170,7 +170,7 @@ module NamePlate
       # to enable verbose output during generation.
       #
       # @return [Logger]
-      def default_logger: () -> untyped
+      def default_logger: () -> Logger
     end
   end
 end

@@ -4,6 +4,8 @@ require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "standard/rake"
 
+SIG_DIR = "sig"
+
 RSpec::Core::RakeTask.new(:spec)
 
 task default: %i[specstandard]
@@ -11,11 +13,7 @@ task :standard do
   Standard::RakeTask.new.execute
 end
 
-require "bundler/gem_tasks"
-
 namespace :rbs do
-  SIG_DIR = "sig"
-
   desc "Remove generated RBS files"
   task :clean do
     sh "rm -rf #{SIG_DIR}"

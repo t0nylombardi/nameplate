@@ -19,3 +19,5 @@
 /public/system/nameplate/*
 /lib/bundler/man/
 .ruby-version
+.gem_rbs_collection
+spec/tmp/*

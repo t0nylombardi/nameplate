@@ -33,4 +33,3 @@ RSpec.describe NamePlate::Avatar::Cache do
     end
   end
 end
-

@@ -25,4 +25,3 @@ RSpec.describe NamePlate::Avatar::Identity do
     end
   end
 end
-

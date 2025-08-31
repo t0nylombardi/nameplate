@@ -64,7 +64,7 @@ module NamePlate
       # ------------------------------
 
       def success_result(path)
-        NamePlate::Results::SuccessResult.new(value: { path: path })
+        NamePlate::Results::SuccessResult.new(value: {path: path})
       end
 
       def failure_result(exception, from:, to:, width:, height:)

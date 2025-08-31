@@ -14,4 +14,3 @@ RSpec.describe Utils::PathHelper do
     end
   end
 end
-

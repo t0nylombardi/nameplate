@@ -86,4 +86,3 @@ RSpec.describe NamePlate::Image::Resizer do
     end
   end
 end
-

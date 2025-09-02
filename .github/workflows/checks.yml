@@ -41,7 +41,7 @@ jobs:
       - name: Validate RBS
         run: bundle exec rbs validate
       - name: Run Steep
-        run: bundle exec steep check
+        run: bundle exec steep check --jobs 4
 
   standardrb:
     name: StandardRB (${{ matrix.ruby }})

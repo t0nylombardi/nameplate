@@ -9,14 +9,17 @@ group :development, :test do
   gem "irb"
   gem "pry-byebug"
   gem "rake", "~> 13.3"
-  gem "rbs"
   gem "rdoc"
   gem "ruby_audit"
   gem "standard"
-  gem "steep"
 end
 
 group :test do
   gem "rspec"
   gem "simplecov"
+end
+
+platforms :mri do
+  gem "rbs", "~> 3.9"
+  gem "steep", "~> 1.10"
 end

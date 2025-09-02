@@ -33,7 +33,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - run: bundle exec rspec
+      - run: bundle exec rspec --jobs 4 --format progress
     continue-on-error: ${{ matrix.allow-failure || false }}
 
   steep:
@@ -55,7 +55,7 @@ jobs:
       - name: Validate RBS
         run: bundle exec rbs validate
       - name: Run Steep
-        run: bundle exec steep check --jobs 4
+        run: bundle exec steep check --jobs 1 --no-server
 
   standardrb:
     name: StandardRB (${{ matrix.ruby }})

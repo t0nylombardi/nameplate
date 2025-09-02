@@ -4,7 +4,8 @@ source "https://rubygems.org"
 
 gemspec
 
-group :development do
+group :development, :test do
+  gem "actionview"
   gem "irb"
   gem "pry-byebug"
   gem "rake", "~> 13.3"

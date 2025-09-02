@@ -1,9 +1,8 @@
-name: CI
+name: CHECKS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
 jobs:
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: &ruby_versions ['3.3.0']
+        ruby: ["3.2", "3.3", "3.4.5"]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
@@ -21,14 +20,14 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Run RSpec
-        run: bundle exec rspec
+        run: bundle exec rspec --format progress
 
   steep:
     name: Steep (${{ matrix.ruby }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: *ruby_versions
+        ruby: ["3.2", "3.3", "3.4.5"]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
@@ -37,7 +36,10 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Install RBS collection
+        if: hashFiles('rbs_collection.yaml') != ''
         run: bundle exec rbs collection install
+      - name: Validate RBS
+        run: bundle exec rbs validate
       - name: Run Steep
         run: bundle exec steep check
 
@@ -46,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: *ruby_versions
+        ruby: ["3.2", "3.3", "3.4.5"]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
@@ -62,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: *ruby_versions
+        ruby: ["3.2", "3.3", "3.4.5"]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby

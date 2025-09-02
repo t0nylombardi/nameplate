@@ -7,7 +7,6 @@ gemspec
 
 group :development do
   gem "actionview"
-  gem "brakeman"
   gem "irb"
   gem "pry-byebug"
   gem "rake", "~> 13.3"

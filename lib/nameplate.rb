@@ -4,7 +4,6 @@
 require "open3"
 require_relative "nameplate/version"
 require_relative "nameplate/configuration"
-require_relative "nameplate/errors"
 require_relative "nameplate/results/success_result"
 require_relative "nameplate/results/failure_result"
 require_relative "nameplate/avatar"

@@ -36,4 +36,3 @@ RSpec.describe NamePlate::ViewHelpers::Avatar do
     end
   end
 end
-

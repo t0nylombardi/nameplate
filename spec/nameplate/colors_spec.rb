@@ -32,4 +32,3 @@ RSpec.describe NamePlate::Colors do
     end
   end
 end
-

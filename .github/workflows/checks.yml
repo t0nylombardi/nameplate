@@ -62,13 +62,43 @@ jobs:
       JAVA_OPTS: -Djdk.io.File.enableADS=true
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Ruby
+
+      - name: Install libidn (Ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo apt-get install libidn11-dev
+
+      - name: Install libidn (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: brew install libidn
+
+      - name: Setup ruby
+        continue-on-error: ${{ matrix.allow-failure || false }}
+        id: setupruby
         uses: ruby/setup-ruby@v1
         with:
+          bundler-cache: false
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Run RSpec
-        run: bundle exec rspec --format progress
+
+      - name: Install gems
+        continue-on-error: ${{ matrix.allow-failure || false }}
+        id: bundle
+        run: bundle install
+
+      - name: Run specs
+        continue-on-error: ${{ matrix.allow-failure || false }}
+        id: specs
+        run: bundle exec rake spec
+
+      # because continue-on-error marks the steps as pass if they fail
+      - name: >-
+          Setup ruby outcome: ${{ steps.setupruby.outcome }}
+        run: echo NOOP
+      - name: >-
+          Install gems outcome: ${{ steps.bundle.outcome }}
+        run: echo NOOP
+      - name: >-
+          Run specs outcome: ${{ steps.specs.outcome }}
+        run: echo NOOP
 
   steep:
     name: Steep (${{ matrix.ruby }})

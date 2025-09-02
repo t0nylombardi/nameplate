@@ -3,6 +3,7 @@
 /.config
 .coverage/
 /doc/
+Gemfile.lock
 .gem_rbs_collection
 .installedFiles
 .lib/bundler/man/

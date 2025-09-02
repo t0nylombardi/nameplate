@@ -2,11 +2,9 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in nameplate.gemspec
 gemspec
 
 group :development do
-  gem "actionview"
   gem "irb"
   gem "pry-byebug"
   gem "rake", "~> 13.3"

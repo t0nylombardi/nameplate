@@ -16,3 +16,9 @@ gems:
     version: "3.13"
   - name: rspec-support
     version: "3.13"
+  - name: ffi
+    ignore: true
+  - name: actionview
+    ignore: true
+  - name: actionpack
+    ignore: true

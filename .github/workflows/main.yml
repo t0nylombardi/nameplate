@@ -36,6 +36,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - name: Install RBS collection
+        run: bundle exec rbs collection install
       - name: Run Steep
         run: bundle exec steep check
 

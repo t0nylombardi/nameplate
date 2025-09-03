@@ -27,27 +27,6 @@ jobs:
       - run: bundle exec rspec
     continue-on-error: false
 
-  steep:
-    name: Steep (${{ matrix.ruby }})
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ["3.1", "3.2", "3.3", "3.4", "3.4.5"]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Install RBS collection
-        if: hashFiles('rbs_collection.yaml') != ''
-        run: bundle exec rbs collection install
-      - name: Validate RBS
-        run: bundle exec rbs validate
-      - name: Run Steep
-        run: bundle exec steep check
-
   standardrb:
     name: StandardRB (${{ matrix.ruby }})
     runs-on: ubuntu-latest

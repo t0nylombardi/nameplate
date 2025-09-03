@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   rspec:
     name: RSpec (${{ matrix.ruby }})
@@ -20,7 +24,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - run: bundle exec rspec --jobs 4
+      - run: bundle exec rspec
     continue-on-error: false
 
   steep:

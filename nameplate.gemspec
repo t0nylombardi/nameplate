@@ -18,4 +18,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "mini_magick", "~> 5.3"
+  spec.add_dependency "concurrent-ruby", "~> 1.3", ">= 1.3.5"
 end

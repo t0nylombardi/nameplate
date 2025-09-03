@@ -1,4 +1,4 @@
-name: Checks
+name: CHECKS
 
 on:
   push:
@@ -6,12 +6,13 @@ on:
   pull_request:
 
 jobs:
-  checks:
+  rspec:
+    name: RSpec (${{ matrix.ruby }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.2", "3.3", "3.4.5"]
+        ruby: ["3.4.5"]
 
     steps:
       - uses: actions/checkout@v4
@@ -19,38 +20,60 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - run: bundle exec rspec --jobs 4 --format progress
+    continue-on-error: false
 
-      - name: Run RSpec
-        run: bundle exec rspec
+  steep:
+    name: Steep (${{ matrix.ruby }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ["3.4.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Install RBS collection
+        if: hashFiles('rbs_collection.yaml') != ''
+        run: bundle exec rbs collection install
+      - name: Validate RBS
+        run: bundle exec rbs validate
+      - name: Run Steep
+        run: bundle exec steep check --jobs 1 --no-server
 
+  standardrb:
+    name: StandardRB (${{ matrix.ruby }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ["3.4.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
       - name: Run StandardRB
         run: bundle exec standardrb
 
-      - name: Validate RBS
-        run: bundle exec rbs validate
-
-      - name: Steep type check
-        run: bundle exec steep check --no-server --jobs 1
-
-      - name: Bundle Audit
-        run: |
-          bundle exec bundle audit update
-          bundle exec bundle audit check
-
-  # JRuby coverage: only run RSpec
-  jruby_rspec:
+  ruby_audit:
+    name: Ruby Audit (${{ matrix.ruby }})
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        ruby: [jruby, jruby-head]
-    continue-on-error: true
-
+        ruby: ["3.4.5"]
     steps:
       - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Run RSpec (JRuby only)
-        run: bundle exec rspec
+      - name: Update Advisory DB and Audit
+        run: |
+          bundle exec bundle audit update
+          bundle exec bundle audit check

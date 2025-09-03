@@ -2,11 +2,12 @@
 
 target :lib do
   signature "sig"
-
   check "lib"
 
   ignore "rspec.rb"
   ignore "version.rb"
+  ignore "actionview-generated.rbs"
+  ignore "actionpack-generated.rbs"
 
   # stdlib
   library "pathname"
@@ -16,7 +17,5 @@ target :lib do
   library "base64"
   library "logger"
   library "open3"
-
-  # gems
   library "actionview"
 end

@@ -18,5 +18,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "mini_magick", "~> 5.3"
-  spec.add_dependency "actionview", ">= 6.0"
 end

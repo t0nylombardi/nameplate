@@ -2,23 +2,24 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in nameplate.gemspec
 gemspec
 
-group :development do
+group :development, :test do
   gem "actionview"
-  gem "brakeman"
   gem "irb"
   gem "pry-byebug"
   gem "rake", "~> 13.3"
-  gem "rbs"
   gem "rdoc"
   gem "ruby_audit"
   gem "standard"
-  gem "steep"
 end
 
 group :test do
   gem "rspec"
   gem "simplecov"
+end
+
+platforms :mri do
+  gem "rbs", "~> 3.9"
+  gem "steep", "~> 1.10"
 end

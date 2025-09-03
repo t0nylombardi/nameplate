@@ -1,7 +1,0 @@
-module ActionView
-  module Helpers
-    module AssetTagHelper
-      def image_tag: (String path, ?Hash[untyped, untyped] options) -> String
-    end
-  end
-end

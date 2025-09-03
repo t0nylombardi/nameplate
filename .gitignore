@@ -3,7 +3,9 @@
 /.config
 .coverage/
 /doc/
+Gemfile.lock
 .gem_rbs_collection
+rbs_collection.lock.yaml
 .installedFiles
 .lib/bundler/man/
 .pkg/
@@ -11,7 +13,7 @@
 .rbc
 .rdoc/
 .rspec_status
-/ruby-version
+.ruby-version
 .spec/examples.txt
 .spec/reports/
 /spec/tmp/*

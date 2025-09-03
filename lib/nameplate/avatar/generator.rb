@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mini_magick"
+require "concurrent-ruby"
 
 module NamePlate
   class Avatar
@@ -38,20 +39,15 @@ module NamePlate
     # @see NamePlate::Avatar::Cache Path building and cache helpers
     class Generator
       # Base class for avatar generation errors
-      # @abstract
-      # @since 0.1.0
       class GenerationError < StandardError; end
 
       # Raised when MiniMagick/ImageMagick fails to render an avatar.
-      # @since 0.1.0
       class ImageMagickError < GenerationError; end
 
       # Raised when filesystem operations (write/verify) fail.
-      # @since 0.1.0
       class FileSystemError < GenerationError; end
 
       # Raised when inputs or configuration are invalid.
-      # @since 1.0.0
       class ConfigurationError < GenerationError; end
 
       # Instantiate a new generator.
@@ -74,37 +70,33 @@ module NamePlate
         validate_inputs!
       end
 
-      # Convenience entry point that builds, runs, and returns the generated path.
-      #
-      # @param username [String]
-      # @param size [Integer]
-      # @param cache [Boolean]
-      # @param logger [Logger, nil]
-      # @return [String] Filesystem path to the generated PNG.
-      # @raise [ConfigurationError] If inputs/configuration are invalid.
-      # @raise [ImageMagickError] If MiniMagick/ImageMagick fails to render.
-      # @raise [FileSystemError] If the resulting file fails verification.
-      # @raise [GenerationError] For other generation-related failures.
       def self.call(username, size, cache: true, logger: nil)
         new(username, size, cache: cache, logger: logger).execute!
+      end
+
+      # Same API as {.call}, but returns a Future so callers can decide
+      # when to block.
+      #
+      # @return [Concurrent::Future<String>] Future that resolves to the avatar path.
+      # @see .call
+      def self.async_call(username, size, cache: true, logger: nil)
+        Concurrent::Future.execute do
+          new(username, size, cache: cache, logger: logger).execute!
+        end
       end
 
       # Run the avatar generation pipeline: build identity, resolve cache path,
       # and generate if needed.
       #
-      # @return [String] Path to the generated (or cached) avatar PNG.
-      # @raise [ConfigurationError] If inputs/configuration are invalid.
-      # @raise [ImageMagickError] If MiniMagick/ImageMagick fails to render.
-      # @raise [FileSystemError] Reserved for callers that optionally verify output.
+      # @return [String] Filesystem path to the generated or cached avatar PNG.
+      # @raise [GenerationError] If anything goes wrong during generation.
       def execute!
-        logger.info "Starting avatar generation for '#{username}' at size #{size}px"
-        path = generate
-        logger.info "Avatar generation completed successfully: #{path}"
-        path
-      rescue => e
-        logger.error "Avatar generation failed: #{e.class.name} - #{e.message}"
-        logger.error "Backtrace: #{e.backtrace.first(5).join("\n")}"
-        raise
+        with_error_handling do
+          logger.info "Starting avatar generation for '#{username}' at size #{size}px"
+          path = generate
+          logger.info "Avatar generation completed successfully: #{path}"
+          path
+        end
       end
 
       private
@@ -121,10 +113,9 @@ module NamePlate
         identity = build_identity
         target_size = normalize_size
         target_path = Avatar::Cache.path(identity, target_size)
-
         return use_cached(target_path) if cached?(target_path)
 
-        generate_avatar(identity, target_size, target_path)
+        Concurrent::Future.execute { generate_avatar(identity, target_size, target_path) }.value!
 
         target_path
       end
@@ -160,7 +151,6 @@ module NamePlate
       # @param [String] path The cached avatar file path.
       # @return [String] The same cached path that was provided.
       def use_cached(path)
-        logger.info "Using cached avatar: #{path}"
         path
       end
 
@@ -206,6 +196,25 @@ module NamePlate
         raise ConfigurationError, "Size must be positive integer" unless size.is_a?(Integer) && size.positive?
         raise ConfigurationError, "Font file not found: #{font}" unless File.exist?(font.to_s)
         raise ConfigurationError, "Fill color not configured" if fill.to_s.empty?
+      end
+
+      # Runs a block, wrapping/logging any errors in GenerationError subclasses.
+      #
+      # @yield The block to execute safely.
+      # @return [Object] The block's return value if successful.
+      # @raise [GenerationError] A normalized error if anything fails.
+      def with_error_handling
+        yield
+      rescue GenerationError => e
+        logger.error "#{e.class}: #{e.message}"
+        raise
+      rescue Errno::ENOENT, Errno::EACCES, Errno::EIO => e
+        logger.error "File system error: #{e.class} - #{e.message}"
+        raise FileSystemError, e.message
+      rescue => e
+        logger.error "Unexpected error: #{e.class} - #{e.message}"
+        logger.debug e.backtrace.join("\n")
+        raise GenerationError, "Unexpected error: #{e.message}"
       end
 
       # Build a default logger that writes to STDOUT.

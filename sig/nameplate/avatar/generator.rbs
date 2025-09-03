@@ -47,17 +47,14 @@ module NamePlate
 
       # Base class for avatar generation errors
       # @abstract
-      # @since 0.1.0
       class GenerationError < StandardError
       end
 
       # Raised when MiniMagick/ImageMagick fails to render an avatar.
-      # @since 0.1.0
       class ImageMagickError < GenerationError
       end
 
       # Raised when filesystem operations (write/verify) fail.
-      # @since 0.1.0
       class FileSystemError < GenerationError
       end
 

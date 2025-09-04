@@ -45,26 +45,35 @@ RSpec.describe NamePlate do
   end
 
   describe ".resize_image" do
-    let(:resizer) { instance_double(NamePlate::Image::Resizer) }
+    let(:src) { File.expand_path("../../fixtures/src.png", __dir__) }
+    let(:dst) { File.expand_path("../../tmp/out.png", __dir__) }
+    let(:width) { 200 }
+    let(:height) { 200 }
+    let(:resize) { NamePlate::Image::Resize }
     let(:success) { NamePlate::Results::SuccessResult.new(value: {path: "out.png"}) }
 
     before do
-      allow(NamePlate::Image::Resizer).to receive(:new).and_return(resizer)
+      FileUtils.mkdir_p(File.dirname(src))
+      File.write(src, "PNG") unless File.exist?(src)
+
+      FileUtils.mkdir_p(File.dirname(dst))
     end
 
-    it "instantiates Image::Resizer and calls #resize with keyword args" do
-      expect(resizer)
-        .to receive(:resize)
-        .with(from: "in.png", to: "out.png", width: 100, height: 200)
-        .and_return(success)
-
-      described_class.resize_image(from: "in.png", to: "out.png", width: 100, height: 200)
+    after do
+      FileUtils.rm_f(src)
+      FileUtils.rm_f(dst)
     end
 
-    it "returns the result object from Image::Resizer#resize" do
-      allow(resizer).to receive(:resize).and_return(success)
+    it "instantiates Image::Resize and calls #resize with keyword args" do
+      expect(resize).to receive(:new).with(from: src, to: dst, width:, height:).and_return(resize)
+      expect(resize).to receive(:resize!).and_return(success)
+      described_class.resize_image(from: src, to: dst, width:, height:)
+    end
+
+    it "returns the result object from Image::Resize#resize" do
+      allow(resize).to receive(:call).and_return(success)
       expect(
-        described_class.resize_image(from: "in.png", to: "out.png", width: 100, height: 200)
+        described_class.resize_image(from: src, to: dst, width:, height:)
       ).to eq(success)
     end
   end
@@ -75,12 +84,12 @@ RSpec.describe NamePlate do
 
     it "returns true when resize_image returns SuccessResult" do
       allow(described_class).to receive(:resize_image).and_return(success)
-      expect(described_class.resize("in.png", "out.png", 50, 50)).to be(true)
+      expect(described_class.resize_image("in.png", "out.png", 50, 50)).to be(success)
     end
 
     it "returns false when resize_image returns FailureResult" do
       allow(described_class).to receive(:resize_image).and_return(failure)
-      expect(described_class.resize("in.png", "out.png", 50, 50)).to be(false)
+      expect(described_class.resize_image("in.png", "out.png", 50, 50)).to be(failure)
     end
   end
 

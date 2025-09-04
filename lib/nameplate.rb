@@ -9,9 +9,9 @@ require_relative "nameplate/results/failure_result"
 require_relative "nameplate/avatar"
 require_relative "nameplate/colors"
 require_relative "nameplate/has_avatar"
-require_relative "nameplate/image/resizer"
+require_relative "nameplate/image/resize"
 require_relative "nameplate/utils/path_helper"
-require_relative "nameplate/view_helpers/avatar"
+require_relative "nameplate/view_helpers/avatar_helper"
 
 module NamePlate
   extend NamePlate::Configuration
@@ -44,14 +44,7 @@ module NamePlate
   # @param height [Integer]
   # @return [SuccessResult, FailureResult]
   def self.resize_image(from:, to:, width:, height:)
-    Image::Resizer.new.resize(from: from, to: to, width: width, height: height)
-  end
-
-  # Legacy API: returns true/false instead of Result
-  #
-  # @deprecated prefer {resize_image}
-  def self.resize(from, to, width, height)
-    resize_image(from: from, to: to, width: width, height: height).success?
+    Image::Resize.call(from:, to:, width:, height:)
   end
 
   # Convert a filesystem path to a URL

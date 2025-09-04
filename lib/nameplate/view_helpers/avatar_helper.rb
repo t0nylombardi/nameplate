@@ -11,10 +11,10 @@ module NamePlate
     #   include NamePlate::ViewHelpers::Avatar
     #
     # Then in your views:
-    #   letter_avatar_for("Tony", 200)
-    #   letter_avatar_url("Tony", 200)
-    #   letter_avatar_tag("Tony", 200, class: "avatar")
-    module Avatar
+    #   nameplate_for("Tony", 200)
+    #   nameplate_url("Tony", 200)
+    #   nameplate_tag("Tony", 200, class: "avatar")
+    module AvatarHelper
       if defined?(ActionView::Helpers::AssetTagHelper)
         include ActionView::Helpers::AssetTagHelper
       end
@@ -24,7 +24,7 @@ module NamePlate
       # @param name [String] the name to base avatar on
       # @param size [Integer] requested size in px
       # @return [String] filesystem path
-      def letter_avatar_for(name, size = 64)
+      def nameplate_for(name, size = 64)
         NamePlate::Avatar.generate(name, size)
       end
 
@@ -33,8 +33,8 @@ module NamePlate
       # @param name [String] the name to base avatar on
       # @param size [Integer] requested size in px
       # @return [String] URL path
-      def letter_avatar_url(name, size = 64)
-        NamePlate.path_to_url(letter_avatar_for(name, size))
+      def nameplate_url(name, size = 64)
+        NamePlate.path_to_url(nameplate_for(name, size))
       end
 
       # Render an <img> tag for the avatar
@@ -43,8 +43,8 @@ module NamePlate
       # @param size [Integer] requested size
       # @param options [Hash] HTML options (e.g., :class)
       # @return [String] HTML img tag
-      def letter_avatar_tag(name, size = 64, options = {})
-        src = letter_avatar_url(name, size)
+      def nameplate_tag(name, size = 64, options = {})
+        src = nameplate_url(name, size)
 
         if defined?(ActionView::Helpers::AssetTagHelper)
           extend ActionView::Helpers::AssetTagHelper

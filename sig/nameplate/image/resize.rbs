@@ -6,7 +6,7 @@ module NamePlate
     # version that fits the requested WxH, centered, with transparent padding.
     #
     # Used by {Avatar::Generator} when a non-fullsize avatar is requested.
-    class Resizer
+    class Resize
       # Entry point to resize an image.
       #
       # @param from [String] path to the source image file
@@ -14,7 +14,11 @@ module NamePlate
       # @param width [Integer] target width in pixels
       # @param height [Integer] target height in pixels
       # @return [NamePlate::Results::SuccessResult, NamePlate::Results::FailureResult]
-      def resize: (from: untyped, to: untyped, width: untyped, height: untyped) -> untyped
+      def initialize: ( String from, String to, Integer width, Integer height) -> void
+
+      def self.call: (from: String, to: String, width: Integer, height: Integer) -> untyped
+
+      def resize: () -> untyped
 
       private
 

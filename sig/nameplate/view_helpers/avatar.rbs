@@ -6,23 +6,23 @@ module NamePlate
     #   include NamePlate::ViewHelpers::Avatar
     #
     # Then in your views:
-    #   letter_avatar_for("Tony", 200)
-    #   letter_avatar_url("Tony", 200)
-    #   letter_avatar_tag("Tony", 200, class: "avatar")
+    #   nameplate_for("Tony", 200)
+    #   nameplate_url("Tony", 200)
+    #   nameplate_tag("Tony", 200, class: "avatar")
     module Avatar
       # Return path to generated avatar image
       #
       # @param name [String] the name to base avatar on
       # @param size [Integer] requested size in px
       # @return [String] filesystem path
-      def letter_avatar_for: (untyped name, ?::Integer size) -> untyped
+      def nameplate_for: (untyped name, ?::Integer size) -> untyped
 
       # Return URL for generated avatar image
       #
       # @param name [String] the name to base avatar on
       # @param size [Integer] requested size in px
       # @return [String] URL path
-      def letter_avatar_url: (untyped name, ?::Integer size) -> untyped
+      def nameplate_url: (untyped name, ?::Integer size) -> untyped
 
       # Render an <img> tag for the avatar
       #
@@ -30,7 +30,7 @@ module NamePlate
       # @param size [Integer] requested size
       # @param options [Hash] HTML options (e.g., :class)
       # @return [String] HTML img tag
-      def letter_avatar_tag: (untyped name, ?::Integer size, ?::Hash[untyped, untyped] options) -> untyped
+      def nameplate_tag: (untyped name, ?::Integer size, ?::Hash[untyped, untyped] options) -> untyped
 
       def image_tag: (String path, ?Hash[untyped, untyped] options) -> String
     end
